@@ -1,0 +1,16 @@
+{
+    "id": "sjc-auto",
+    "cmd": "cd sjcflask && python sjc.py",
+    "cpus": 0.1,
+    "mem": 128.0,
+    "env": {
+        "CALICO_IP": "192.168.0.2",
+        "CALICO_PROFILE": "sjc"
+    },
+    "labels": {
+        "calico": "testcalico"
+    },
+    "instances": 1,
+    "ports": [5000],
+    "uris": ["https://raw.githubusercontent.com/djosborne/metaswitch-modules/master/test/sjcflask.tgz"]
+}
