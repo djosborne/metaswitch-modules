@@ -2,22 +2,7 @@
 docker-compose up -d
 
 export IP_ADDRESS=`docker inspect --format='{{.NetworkSettings.IPAddress}}' metaswitchmodules_marathon_1`
-echo $IP_ADDRESS
-
-# put tar.gz somewhere
-# load json
-function sendjson() {
-	curl --retry-delay 2 --retry 10 -X POST http://$IP_ADDRESS:8080/v2/apps -d @./sjc-static.json -H "Content-type: application/json"
-}
-
-COUNTER=5
-sendjson
-until [ $COUNTER -eq 0 ]; do
-	echo $COUNTER
-	sendjson
-	if [ $? -eq 0 ]; then
-		break
-	fi
-	let COUNTER-=1
-	sleep 2
-done
+# Wait for the marathon container to come up
+sleep 10
+curl -X POST http://$IP_ADDRESS:8080/v2/apps -d @$0/sjc-static.json -H "Content-type: application/json"
+docker exec metaswitchmodules_slave1_1 ping -c 4 192.168.0.2
