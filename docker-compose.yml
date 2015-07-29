@@ -25,7 +25,7 @@ mesosmaster:
     - zookeeper
 
 slave1:
-  build: .
+  image: djosborne/metamodules
   hostname: slave1
   privileged: true
   ports:
