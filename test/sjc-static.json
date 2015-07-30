@@ -12,5 +12,5 @@
     },
     "instances": 1,
     "ports": [5000],
-    "uris": ["https://raw.githubusercontent.com/djosborne/metaswitch-modules/master/test/sjcflask.tgz"]
+    "uris": ["file:///mesos/sjcflask.tgz"]
 }
