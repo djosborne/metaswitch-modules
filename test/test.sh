@@ -6,3 +6,4 @@ export IP_ADDRESS=`docker inspect --format='{{.NetworkSettings.IPAddress}}' meta
 sleep 100
 curl -X POST http://$IP_ADDRESS:8080/v2/apps -d @`dirname $0`/sjc-static.json -H "Content-type: application/json"
 docker exec metaswitchmodules_slave1_1 ping -c 4 192.168.0.2
+
