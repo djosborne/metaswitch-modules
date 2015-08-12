@@ -12,5 +12,6 @@
     },
     "instances": 1,
     "ports": [5000],
-    "uris": ["file:///mesos/sampleflaskapp.tgz"]
+    "uris": ["file:///mesos/sampleflaskapp.tgz"],
+    "network_isolator.netgroups": "default"
 }
