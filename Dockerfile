@@ -28,7 +28,7 @@ RUN ./bootstrap && \
     mkdir build && \
     cd build && \
     export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib && \
-    ../configure --with-mesos-build-dir=/mesos/build --with-mesos-root=/mesos && \
+    ../configure --with-mesos=/usr/local --with-protobuf=/usr && \
     make all
 
 # Add python module requirements
@@ -60,6 +60,19 @@ VOLUME /var/lib/docker
 RUN wget https://github.com/Metaswitch/calico-docker/releases/download/v0.5.1/calicoctl && \
     chmod +x calicoctl && \
     mv calicoctl /usr/local/bin/
+
+#######################
+# Star (test workload)
+#######################
+WORKDIR /star
+
+ADD http://downloads.mesosphere.io/demo/star/v0.5.0/star-collect-v0.5.0-linux-x86_64 /star/
+RUN chmod +x star-collect-v0.5.0-linux-x86_64
+ADD http://downloads.mesosphere.io/demo/star/v0.5.0/star-probe-v0.5.0-linux-x86_64 /star/
+RUN chmod +x star-probe-v0.5.0-linux-x86_64
+
+COPY ./demo/marathon/star-resources.json /star/star-resources.json
+COPY ./demo/marathon/star-iso-resources.json /star/star-iso-resources.json
 
 ##################
 # Sample Flask App
