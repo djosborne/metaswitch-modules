@@ -19,7 +19,7 @@ mesosmaster:
     - zookeeper
 
 slave1:
-  image: mesosphere/slave
+  build: .
   hostname: slave1.service.consul
   privileged: true
   ports:
@@ -46,7 +46,7 @@ slave1:
    - 192.168.255.254
 
 slave2:
-  image: mesosphere/slave
+  build: .
   hostname: slave2.service.consul
   privileged: true
   ports:
@@ -88,5 +88,5 @@ etcd:
   image: spikecurtis/single-etcd
 
 consul:
-  image: progrium/consul:consul-0.4
+  image: progrium/consul
   command: "-server -bootstrap-expect 1"
