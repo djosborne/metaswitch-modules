@@ -7,7 +7,7 @@ URL:           http://mesos.apache.org/
 
 ExclusiveArch: x86_64
 
-%define mesos_github_tag master
+%define mesos_github_tag 0.28.0-rc1
 
 Source0:       %{mesos_github_tag}.tar.gz
 Source1:       %{name}
