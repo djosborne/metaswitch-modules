@@ -19,6 +19,7 @@ Source6:       quorum
 Source7:       work_dir
 Source8:       mesos-init-wrapper
 Source9:       zk
+Source10:      containerizers
 
 Patch0: patch0
 
@@ -196,6 +197,7 @@ install -m 0755 %{SOURCE8} %{buildroot}%{_bindir}/
 
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 install -m 0644 %{SOURCE9} %{buildroot}%{_sysconfdir}/%{name}/
+install -m 0644 %{SOURCE10} %{buildroot}%{_sysconfdir}/%{name}-slave/
 
 mkdir -p -m0755 %{buildroot}/%{_var}/log/%{name}
 mkdir -p -m0755 %{buildroot}/%{_var}/lib/%{name}
