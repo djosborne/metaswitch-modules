@@ -14,10 +14,7 @@ Source2:       hooks
 BuildRequires: libtool
 BuildRequires: python-devel
 BuildRequires: gcc-c++
-BuildRequires: glog-devel
 BuildRequires: gflags-devel
-BuildRequires: boost-devel
-BuildRequires: protobuf-devel
 BuildRequires: curl-devel
 BuildRequires: subversion-devel
 
@@ -32,13 +29,15 @@ The first implementation in this repository showcases Apache Mesos using Project
 %build
 ./bootstrap
 
-%configure --with-mesos=/usr/include/mesos/ --with-protobuf=/usr
+CPPFLAGS='-I/root/protobuf/protobuf-2.5.0/src/ -I/root/glog/glog-0.3.3/src/ -I/root/boost/boost-1.53.0/' ./configure --with-mesos=/
 make -j 2
 
 %install
 %make_install
 
+rm -f /usr/local/lib/mesos/*.la
 rm -f %{buildroot}%{_libdir}/mesos/*.la
+rm -f %{buildroot}/usr/local/lib/mesos/*.la
 
 mkdir -p %{buildroot}%{_sysconfdir}/mesos-slave
 install %{SOURCE1} %{buildroot}%{_sysconfdir}/mesos-slave/
@@ -46,7 +45,7 @@ install %{SOURCE2} %{buildroot}%{_sysconfdir}/mesos-slave/
 
 ############################################
 %files
-%{_libdir}/mesos/libmesos_network_isolator*.so
+/usr/local/lib/mesos/libmesos_network_isolator*.so
 %{_sysconfdir}/mesos-slave/isolation
 %{_sysconfdir}/mesos-slave/hooks
 
