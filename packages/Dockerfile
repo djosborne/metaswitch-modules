@@ -15,42 +15,20 @@ RUN echo "gpgkey=http://opensource.wandisco.com/RPM-GPG-KEY-WANdisco" >> /etc/yu
 # Mesos Deps
 RUN yum groupinstall -y "Development Tools"
 RUN yum install -y \
-  apache-maven \
+   git \
   python-devel \
-  java-1.7.0-openjdk-devel \
-  zlib-devel \
   libcurl-devel \
-  openssl-devel \
-  cyrus-sasl-devel \
-  cyrus-sasl-md5 \
-  apr-devel \
-  subversion-devel \
-  apr-util-devel \
   python-setuptools \
-  gflags-devel \
-  http-parser-devel \
-  gmock-devel \
-  gtest-devel \
-  gperftools-devel \
-  libev-source \
-  leveldb-devel \
-  protobuf-java \
   python-pip \
-  python-wheel \ 
-  automake
+  python-wheel 
 
-# Build & install glog
-#WORKDIR  /root
-#RUN git clone https://github.com/google/glog.git
-#WORKDIR /root/glog
-#RUN git checkout v0.3.3
-#RUN ./configure --prefix=/usr/local
-#RUN make install
 WORKDIR  /root
 
+# Install Mesos
 RUN rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
 RUN yum -y install mesos-0.28.0
 
+# Get 3rd party dependency source files
 RUN wget https://github.com/apache/mesos/archive/0.28.0.tar.gz
 RUN tar -xvf 0.28.0.tar.gz
 

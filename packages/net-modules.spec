@@ -11,12 +11,9 @@ Source0:       netmodules.tar.gz
 Source1:       isolation
 Source2:       hooks
 
-BuildRequires: libtool
 BuildRequires: python-devel
 BuildRequires: gcc-c++
-BuildRequires: gflags-devel
 BuildRequires: curl-devel
-BuildRequires: subversion-devel
 
 
 %description
