@@ -1,5 +1,15 @@
-FROM mesosphere/mesos-modules-dev-phusion:0.27.1
+FROM ubuntu-upstart:14.04
 MAINTAINER Dan Osborne <dan@projectcalico.org>
+
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF
+
+# Add the repository
+RUN echo "deb http://repos.mesosphere.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) main" | \
+  tee /etc/apt/sources.list.d/mesosphere.list
+RUN apt-get -y update -qq
+RUN apt-get -y -qq install mesos
+RUN apt-get install -y -qq \
+ curl
 
 ####################
 # Mesos-DNS
