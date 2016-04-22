@@ -26,16 +26,16 @@ WORKDIR  /root
 
 # Install Mesos
 RUN rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
-RUN yum -y install mesos-0.28.0
+RUN yum -y install mesos-0.28.1
 
 # Get 3rd party dependency source files
-RUN wget https://github.com/apache/mesos/archive/0.28.0.tar.gz
-RUN tar -xvf 0.28.0.tar.gz
+RUN wget https://github.com/apache/mesos/archive/0.28.1.tar.gz
+RUN tar -xvf 0.28.1.tar.gz
 
 # GLOG
 WORKDIR /root/glog
-RUN cp /root/mesos-0.28.0/3rdparty/libprocess/3rdparty/glog-0.3.3.tar.gz /root/glog
-RUN cp /root/mesos-0.28.0/3rdparty/libprocess/3rdparty/glog-0.3.3.patch /root/glog
+RUN cp /root/mesos-0.28.1/3rdparty/libprocess/3rdparty/glog-0.3.3.tar.gz /root/glog
+RUN cp /root/mesos-0.28.1/3rdparty/libprocess/3rdparty/glog-0.3.3.patch /root/glog
 RUN tar -xvf glog-0.3.3.tar.gz
 WORKDIR glog-0.3.3
 RUN git apply ../glog-0.3.3.patch
@@ -43,12 +43,12 @@ RUN ./configure
 
 # BOOST
 WORKDIR /root/boost
-RUN cp /root/mesos-0.28.0/3rdparty/libprocess/3rdparty/boost-1.53.0.tar.gz .
+RUN cp /root/mesos-0.28.1/3rdparty/libprocess/3rdparty/boost-1.53.0.tar.gz .
 RUN tar -xvf boost-1.53.0.tar.gz
 
 # PROTOBUF
 WORKDIR /root/protobuf
-RUN cp /root/mesos-0.28.0/3rdparty/libprocess/3rdparty/protobuf-2.5.0.tar.gz .
+RUN cp /root/mesos-0.28.1/3rdparty/libprocess/3rdparty/protobuf-2.5.0.tar.gz .
 RUN tar -xvf protobuf-2.5.0.tar.gz
 
 
@@ -60,4 +60,4 @@ WORKDIR /root/rpmbuild/SOURCES/
 ADD ./net-modules.spec /root/net-modules.spec
 ADD ./sources/net-modules/ /root/rpmbuild/SOURCES/
 
-CMD bash -c "tar czf netmodules.tar.gz -C /tmp isolator && rpmbuild --target=i386 -ba /root/net-modules.spec"
+CMD bash -c "tar czf netmodules.tar.gz -C /tmp isolator && rpmbuild -ba /root/net-modules.spec"

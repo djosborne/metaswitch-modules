@@ -5,8 +5,6 @@ Summary:       Network isolation modules for Apache Mesos
 License:       ASL 2.0
 URL:           http://mesos.apache.org/
 
-ExclusiveArch: i386
-
 Source0:       netmodules.tar.gz
 Source1:       isolation
 Source2:       hooks
