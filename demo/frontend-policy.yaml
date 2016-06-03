@@ -1,0 +1,17 @@
+version: v1
+kind: policy
+metadata:
+  name: frontend-policy
+spec:
+  order: 50
+  selector: application == 'frontend'
+  inbound_rules:
+  - protocol: tcp
+    dst_ports: [80]
+    action: allow
+  outbound_rules:
+  - protocol: tcp
+    dst_selector: application == 'database'
+    dst_ports: [6379]
+    action: allow
+

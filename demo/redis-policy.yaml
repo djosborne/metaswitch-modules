@@ -1,0 +1,14 @@
+version: v1
+kind: policy
+metadata:
+  name: redis-policy
+spec:
+  order: 50
+  selector: application == 'database' 
+  inbound_rules:
+  - protocol: tcp
+    src_selector: application == 'frontend'
+    action: allow
+  outbound_rules:
+  - action: deny
+

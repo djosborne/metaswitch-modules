@@ -1,0 +1,17 @@
+{
+  "id": "database",
+  "cmd": "redis-server --bind 0.0.0.0",
+  "cpus": 0.1,
+  "mem": 128,
+  "instances": 1,
+  "ipAddress": {
+    "labels": {
+      "application": "database",
+      "group": "production"
+    },
+    "discovery": {
+      "ports": [{"number": 6379, "name": "http", "protocol": "tcp"}]
+    }
+  }
+}
+
