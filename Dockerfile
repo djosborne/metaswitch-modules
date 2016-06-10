@@ -53,7 +53,7 @@ WORKDIR /mesos
 
 # Clone Mesos (master branch)
 RUN git clone https://github.com/djosborne/mesos.git /mesos
-RUN git checkout strip-subnet-for-cni 
+RUN git checkout labels-task-ids
 RUN git log -n 1
 
 # Bootstrap
@@ -63,7 +63,7 @@ RUN ./bootstrap
 RUN mkdir build && cd build && ../configure --disable-java --disable-optimize --without-included-zookeeper
 
 # Build Mesos
-RUN cd build && make -j 2 install
+RUN cd build && make -j 6 install
 
 # Install python eggs
 RUN easy_install /mesos/build/src/python/dist/mesos.interface-*.egg

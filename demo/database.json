@@ -5,6 +5,7 @@
   "mem": 128,
   "instances": 1,
   "ipAddress": {
+    "name": "test",
     "labels": {
       "application": "database",
       "group": "production"

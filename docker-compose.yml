@@ -54,7 +54,7 @@ slave:
    - 192.168.255.254
 
 marathon:
-  image: djosborne/marathon:cni
+  image: djosborne/marathon:dev
   environment:
     - MARATHON_MASTER=zk://zookeeper:2181/mesos
     - MARATHON_ZK=zk://zookeeper:2181/marathon
