@@ -1,15 +1,9 @@
 FROM phusion/baseimage
 MAINTAINER Dan Osborne <dan@projectcalico.org>
 
-# Install Mesos
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF
-ENV DISTRO=ubuntu
-ENV CODENAME=trusty-unstable
+# Install Dependencies
 
-RUN echo "deb http://repos.mesosphere.com/${DISTRO} ${CODENAME} main" | \
-  tee /etc/apt/sources.list.d/mesosphere.list
-RUN apt-get -y update
-
+RUN apt-get update -q --fix-missing
 RUN apt-get -qy install software-properties-common # (for add-apt-repository)
 RUN add-apt-repository ppa:george-edison55/cmake-3.x
 RUN apt-get update -q
@@ -71,7 +65,21 @@ VOLUME /var/lib/docker
 #RUN wget http://search.maven.org/remotecontent?filepath=com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar -O protobuf.jar
 #RUN mv protobuf.jar /usr/share/java/
 
-RUN apt-get -y install mesos libevent-dev
+WORKDIR /mesos
+
+# Clone Mesos (master branch)
+RUN git clone https://github.com/apache/mesos.git /mesos
+RUN git log -n 1
+
+# Bootstrap
+RUN ./bootstrap
+
+# Configure
+RUN mkdir build && cd build && ../configure --disable-java --disable-optimize --without-included-zookeeper
+
+# Build Mesos
+RUN cd build && make -j 6 install
+
 # Install python eggs
 #RUN easy_install /mesos/build/src/python/dist/mesos.interface-*.egg
 #RUN easy_install /mesos/build/src/python/dist/mesos.executor-*.egg
