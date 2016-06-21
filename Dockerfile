@@ -52,8 +52,7 @@ RUN mv protobuf.jar /usr/share/java/
 WORKDIR /mesos
 
 # Clone Mesos (master branch)
-RUN git clone https://github.com/djosborne/mesos.git /mesos
-RUN git checkout labels-task-ids
+RUN git clone https://github.com/apache/mesos.git /mesos
 RUN git log -n 1
 
 # Bootstrap

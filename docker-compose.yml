@@ -40,6 +40,7 @@ slave:
   environment:
     - MESOS_MASTER=zk://zookeeper:2181/mesos
     - MESOS_EXECUTOR_REGISTRATION_TIMEOUT=5mins
+    - MESOS_WORK_DIR=/var/lib/mesos
     - MESOS_CONTAINERIZERS=mesos,docker
     - MESOS_ISOLATOR=cgroups/cpu,cgroups/mem
     - MESOS_LOG_DIR=/var/log
@@ -54,7 +55,7 @@ slave:
    - 192.168.255.254
 
 marathon:
-  image: djosborne/marathon:dev
+  image: djosborne/marathon:cni
   environment:
     - MARATHON_MASTER=zk://zookeeper:2181/mesos
     - MARATHON_ZK=zk://zookeeper:2181/marathon
@@ -69,4 +70,6 @@ etcd:
   image: quay.io/coreos/etcd:v2.3.5
   environment:
     - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
-    - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+    - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379,http://localhost:2379
+  ports:
+    - "2379:2379"

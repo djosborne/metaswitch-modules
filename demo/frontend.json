@@ -6,7 +6,6 @@
   "mem": 128,
   "uris": ["file:///root/app.py"],
   "ipAddress": {
-    "name": "test",
     "labels": {
       "application": "frontend",
       "group": "production"
