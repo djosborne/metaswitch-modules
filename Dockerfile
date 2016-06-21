@@ -37,17 +37,33 @@ RUN apt-get -qy install \
   libsasl2-modules-gssapi-heimdal         \
   unzip                                   \
   dnsutils                                \
+  apt-transport-https \
+  curl \
+  lxc \
+  iptables \
+  python-dev python-pip \
   --no-install-recommends
 
+RUN pip install --upgrade pip
+
+###################
+# Docker
+###################
+
+# Install Docker from Docker Inc. repositories.
+RUN curl -sSL https://get.docker.com/ | sh
+
+# Define additional metadata for our image.
+VOLUME /var/lib/docker
 # Install the picojson headers
-RUN wget https://raw.githubusercontent.com/kazuho/picojson/v1.3.0/picojson.h -O /usr/local/include/picojson.h
+#RUN wget https://raw.githubusercontent.com/kazuho/picojson/v1.3.0/picojson.h -O /usr/local/include/picojson.h
 
 # Prepare to build Mesos
-RUN mkdir -p /mesos
-RUN mkdir -p /tmp
-RUN mkdir -p /usr/share/java/
-RUN wget http://search.maven.org/remotecontent?filepath=com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar -O protobuf.jar
-RUN mv protobuf.jar /usr/share/java/
+#RUN mkdir -p /mesos
+#RUN mkdir -p /tmp
+#RUN mkdir -p /usr/share/java/
+#RUN wget http://search.maven.org/remotecontent?filepath=com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar -O protobuf.jar
+#RUN mv protobuf.jar /usr/share/java/
 
 WORKDIR /mesos
 
@@ -65,30 +81,12 @@ RUN mkdir build && cd build && ../configure --disable-java --disable-optimize --
 RUN cd build && make -j 6 install
 
 # Install python eggs
-RUN easy_install /mesos/build/src/python/dist/mesos.interface-*.egg
-RUN easy_install /mesos/build/src/python/dist/mesos.executor-*.egg
-RUN easy_install /mesos/build/src/python/dist/mesos.scheduler-*.egg
-RUN easy_install /mesos/build/src/python/dist/mesos.native-*.egg
+#RUN easy_install /mesos/build/src/python/dist/mesos.interface-*.egg
+#RUN easy_install /mesos/build/src/python/dist/mesos.executor-*.egg
+#RUN easy_install /mesos/build/src/python/dist/mesos.scheduler-*.egg
+#RUN easy_install /mesos/build/src/python/dist/mesos.native-*.egg
 
 
-###################
-# Docker
-###################
-RUN apt-get update -qq && apt-get install -qqy \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    lxc \
-    iptables \
-    python-dev python-pip
-
-RUN pip install --upgrade pip
-
-# Install Docker from Docker Inc. repositories.
-RUN curl -sSL https://get.docker.com/ | sh
-
-# Define additional metadata for our image.
-VOLUME /var/lib/docker
 
 
 ####################
@@ -102,6 +100,7 @@ RUN curl -LO https://github.com/mesosphere/mesos-dns/releases/download/v0.5.0/me
 # Demo Files
 ####################
 # redis
+RUN pip install flask redis
 WORKDIR /root
 RUN curl -LO http://download.redis.io/releases/redis-3.2.0.tar.gz
 RUN tar -xvf /root/redis-3.2.0.tar.gz
@@ -109,7 +108,6 @@ WORKDIR /root/redis-3.2.0
 RUN make && make install
 
 # flask
-RUN pip install flask redis
 ADD ./demo/app.py /root/
 
 #################
